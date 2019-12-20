@@ -39,7 +39,8 @@ metadata:
 spec:
   type: NodePort                 # Expose the Pods by opening a port on each Node and proxing it to the service.
   ports:                         # Take incoming HTTP requests on port 9090 and forward them to the targetPort of 8080
-  - port: 4000
+  - name: http
+    port: 4000
     targetPort: 4000
   selector:
     app: api
