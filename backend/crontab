@@ -1,0 +1,3 @@
+50 * * * * echo "Writing data to redis..." > /proc/1/fd/1 2>/proc/1/fd/2
+50 * * * * /usr/local/bin/python /get_data.py >> /var/log/cron.log 2>&1
+
