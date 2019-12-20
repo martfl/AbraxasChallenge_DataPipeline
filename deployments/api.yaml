@@ -11,11 +11,15 @@ spec:
   replicas: 1                    # Number of pods to run at any given time
   selector:
     matchLabels:
-      app: api                   # This deployment applies to any Pods matching the specified label
+      app: api
+      role: master
+      tier: frontend
   template:                      # This deployment will create a set of pods using the configurations in this template
     metadata:
       labels:                    # The labels that will be applied to all of the pods in this deployment
-        app: api 
+        app: api
+        role: master
+        tier: frontend
     spec:
       containers:
       - name: api
