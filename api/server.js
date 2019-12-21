@@ -5,10 +5,7 @@ const Redis = require('ioredis');
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
 
-console.log(process.env.REDIS_MASTER_SERVICE_HOST);
-console.log(process.env.REDIS_MASTER_SERVICE_PORT);
-
-const redis = new Redis({host: process.env.REDIS_MASTER_SERVICE_HOST, port: process.env.REDIS_MASTER_SERVICE_PORT || 6379})
+const redis = new Redis({host: process.env.REDIS_MASTER_SERVICE_HOST || 'redis-server', port: process.env.REDIS_MASTER_SERVICE_PORT || 6379})
 const app = express()
 
 const server = new ApolloServer({

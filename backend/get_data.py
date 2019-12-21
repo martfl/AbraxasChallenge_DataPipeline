@@ -13,7 +13,7 @@ response = requests.get(url, params=parameters)
 data = response.json()["records"]
 
 print(os.environ)
-r = redis.Redis(host=os.environ['REDIS_MASTER_SERVICE_HOST'], port=os.environ['REDIS_MASTER_SERVICE_PORT'])
+r = redis.Redis(host=os.environ.get('REDIS_MASTER_SERVICE_HOST','redis-server', port=os.environ.get('REDIS_MASTER_SERVICE_PORT', 6379))
 if r.ping() is True:
   print("Redis server connected!")
 else:
