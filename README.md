@@ -12,10 +12,24 @@ The solution is made up of 3 containers.
 
 - A GraphQL API on a Node.js server
 - A persistent Redis server
-- A Python script that fetches data from the https://datos.cdmx.gob.mx/explore/ API's and stores them on Redis.
+- A Python script that fetches data from the https://datos.cdmx.gob.mx/explore/ API's, handles data transformations, and stores them on Redis.
+
 
 Using Kubernetes for orchestration, it deploys both a Service resource and a Deployment resource for the GraphQL API and the Redis server.
 And finally a CronJob resource for scheduling the Python script to run every hour.
+
+Alcaldías are calculated using the following API: https://datos.cdmx.gob.mx/explore/dataset/ubicacion-acceso-gratuito-internet-wifi-c5. 
+Results are cached in Redis to lower number of requests.
+
+## Data Model
+
+Main data model was accomplished using Redis as a time-series db.
+
+A sorted set is used for storing a vehicle's location history. Its rank is calculated using the timestamp in miliseconds.
+Keys are stored in Redis in the following format: ```vehicle:<VEHICLE_ID>```
+
+For Alcaldías and Units available a simple set is used.
+
 
 ## Deploying
 
