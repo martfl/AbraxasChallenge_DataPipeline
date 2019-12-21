@@ -6,15 +6,15 @@
 - kubectl
 - Docker (docker-compose optional.)
 
-## Helpers
+## Deploying
 
-- Re-using local Docker daemon with minikube: `eval $(minikube docker-env)` (run it once before Docker build)
-- On OSX: To base64: `pbpaste | base64 | pbcopy` and From base64: `pbcopy | base64 --decode`
-- `minikube start` and `minikube stop`
+### 0. Run a Kubernetes cluster
 
-## Tasks
+```sh
+minikube start
+```
 
-### 1. Build Docker image
+### 1. Build Docker images locally (optional, but recommended)
 
 Re-using local Docker daemon with minikube:
 
@@ -22,8 +22,24 @@ Re-using local Docker daemon with minikube:
 eval $(minikube docker-env)
 ```
 
-Building Docker image:
+Building Docker images:
 
 ```sh
-cd src/gateway
-docker build -t my-co/gateway:v1 .
+docker build -t mmartfl/api:v1 api
+docker build -t mmartfl/redis-server:v1 redis-server
+docker build -t mmarfl/backend:v1 backend
+```
+
+### 2. Deploy Services using ```kubectl```
+
+```sh
+kubectl apply -f deployments
+```
+
+
+### GraphQL API
+
+Several queries are available:
+- listUnits
+-
+
