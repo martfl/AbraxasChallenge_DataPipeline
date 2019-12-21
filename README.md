@@ -14,12 +14,11 @@ The solution is made up of 3 containers.
 - A persistent Redis server
 - A Python script that fetches data from the https://datos.cdmx.gob.mx/explore/ API's, handles data transformations, and stores them on Redis.
 
+Alcaldías are calculated using the following API: https://datos.cdmx.gob.mx/explore/dataset/ubicacion-acceso-gratuito-internet-wifi-c5. 
+Results are cached in Redis to lower number of requests.  
 
 Using Kubernetes for orchestration, it deploys both a Service resource and a Deployment resource for the GraphQL API and the Redis server.
 And finally a CronJob resource for scheduling the Python script to run every hour.
-
-Alcaldías are calculated using the following API: https://datos.cdmx.gob.mx/explore/dataset/ubicacion-acceso-gratuito-internet-wifi-c5. 
-Results are cached in Redis to lower number of requests.
 
 ## Data Model
 
@@ -27,6 +26,8 @@ Main data model was accomplished using Redis as a time-series db.
 
 A sorted set is used for storing a vehicle's location history. Its rank is calculated using the timestamp in miliseconds.
 Keys are stored in Redis in the following format: ```vehicle:<VEHICLE_ID>```
+
+The GraphQL API is written in such way that any request is treated as atomic for Redis. i.e. A single command is issued to the server.
 
 For Alcaldías and Units available a simple set is used.
 
@@ -77,7 +78,7 @@ Kubernetes dynamically asigns an IP to each service, to get the url for our API 
 minikube service metrobus-api-service --url
 ```
 
-The GraphQL playground is enabled at the ```/graphql```endpoint.
+The GraphQL playground is enabled at the ```/graphql```endpoint. Test data is provided.
 
 ### GraphQL API
 
