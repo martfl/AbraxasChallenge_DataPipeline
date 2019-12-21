@@ -36,10 +36,30 @@ docker build -t mmarfl/backend:v1 backend
 kubectl apply -f deployments
 ```
 
+It should output the Deployments and Services created
+```sh
+▶ kubectl apply -f deployments
+deployment.apps/metrobus-api created
+service/metrobus-api-service created
+cronjob.batch/backend created
+deployment.apps/redis-master created
+service/redis-master created
+```
+
+
+Kubernetes dynamically asigns an IP to each service, to get the url for our API service:
+
+```sh
+minikube service metrobus-api-service --url
+```
+
+The GraphQL playground is enabled at the ```/graphql```endpoint.
 
 ### GraphQL API
 
 Several queries are available:
 - listUnits
--
+- unitHistory(id:<VEHICLE_ID>)
+- listAlcaldias
+- unitsByAlcaldia(alcaldias:<ALCALDIA_NAME>)
 
