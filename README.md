@@ -6,6 +6,17 @@
 - kubectl
 - Docker (docker-compose optional.)
 
+## Architecture
+
+The solution is made up of 3 containers.
+
+- A GraphQL API on a Node.js server
+- A persistent Redis server
+- A Python script that fetches data from the https://datos.cdmx.gob.mx/explore/ API's and stores them on Redis.
+
+Using Kubernetes for orchestration, it deploys both a Service resource and a Deployment resource for the GraphQL API and the Redis server.
+And finally a CronJob resource for scheduling the Python script to run every hour.
+
 ## Deploying
 
 ### 0. Run a Kubernetes cluster
@@ -46,7 +57,6 @@ deployment.apps/redis-master created
 service/redis-master created
 ```
 
-
 Kubernetes dynamically asigns an IP to each service, to get the url for our API service:
 
 ```sh
@@ -57,9 +67,21 @@ The GraphQL playground is enabled at the ```/graphql```endpoint.
 
 ### GraphQL API
 
+#### Schema
+
+The following schema is used for representing the position at a certain time for a single vehicle.
+
+```
+type Unit {
+coords: [String]
+alcaldia: String!
+date_updated: String
+}
+```
+
 Several queries are available:
-- listUnits
-- unitHistory(id:<VEHICLE_ID>)
-- listAlcaldias
-- unitsByAlcaldia(alcaldias:<ALCALDIA_NAME>)
+- listUnits:[Int]
+- unitHistory(id:<VEHICLE_ID>):[Unit]
+- listAlcaldias:[String]
+- unitsByAlcaldia(alcaldias:<ALCALDIA_NAME>)[String]
 
