@@ -1,3 +1,4 @@
+import os
 import requests
 import redis
 from datetime import datetime
@@ -11,8 +12,8 @@ print("{} units available. Starting data loading...".format(nhits))
 response = requests.get(url, params=parameters)
 data = response.json()["records"]
 
-
-r = redis.Redis(host='redis-server', port=6379)
+print(os.environ)
+r = redis.Redis(host=os.environ['REDIS_MASTER_SERVICE_HOST'], port=os.environ['REDIS_MASTER_SERVICE_PORT'])
 if r.ping() is True:
   print("Redis server connected!")
 else:

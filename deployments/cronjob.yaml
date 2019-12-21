@@ -1,0 +1,16 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: backend
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backend
+            image: mmartfl/backend:v2
+            imagePullPolicy: Always
+            command: ["python", "get_data.py"]
+          restartPolicy: OnFailure
