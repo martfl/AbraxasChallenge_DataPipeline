@@ -3,14 +3,14 @@ kind: CronJob
 metadata:
   name: backend
 spec:
-  schedule: "10 * * * *"
+  schedule: "33 * * * *"
   jobTemplate:
     spec:
       template:
         spec:
           containers:
           - name: backend
-            image: mmartfl/backend:v2
+            image: mmartfl/backend:v1
             imagePullPolicy: IfNotPresent
             command: ["python", "get_data.py"]
           restartPolicy: OnFailure

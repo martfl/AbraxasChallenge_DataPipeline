@@ -1,4 +1,5 @@
 FROM redis
 COPY redis.conf /usr/local/etc/redis/redis.conf
-COPY dump.rdb /usr/local/var/db/redis/dump.rdb
+WORKDIR /var/lib/redis
+COPY dump.rdb /var/lib/redis/dump.rdb
 CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
